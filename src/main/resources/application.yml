@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/account
+    username: root
+    password: 123456
+    type: com.zaxxer.hikari.HikariDataSource
+mybatis:
+  type-aliases-package: com.account.pojo
+  configuration:
+    # 指定MyBatis使用的日志实现类
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+    # 启用下划线转驼峰命名规则
+    map-underscore-to-camel-case: true
+  #指定MyBatis映射文件的位置
+  mapper-locations: classpath:/mappers/*.xml

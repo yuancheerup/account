@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.account.mapper.NoticeMapper">
+
+<!--    <sql id="Base_Column_List">-->
+<!--        id,title,content,create_time,create_user-->
+<!--    </sql>-->
+
+    <!-- 添加-->
+    <insert id="insert">
+        insert into notice
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null">title,</if>
+            <if test="content != null">content,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createUser != null">create_user,</if>
+        </trim>
+            values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null">#{title},</if>
+            <if test="content != null">#{content},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createUser != null">#{createUser},</if>
+        </trim>
+    </insert>
+
+    <!-- 查询所有-->
+    <select id="selectAll" resultType="com.account.pojo.Notice">
+        select * from notice
+        order by id desc
+    </select>
+</mapper>
