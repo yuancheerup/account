@@ -1,26 +1,27 @@
 package com.account.mapper;
 
-import com.account.pojo.User;
+import com.account.pojo.Admin;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 @Mapper
-public interface UserMapper {
-    /**
-     * 根据用户名查询
-     */
-    User selectUserByUsername(String username);
+public interface AdminMapper {
 
     /**
      * 添加
      */
-    void insert(User user);
+    void insert(Admin admin);
+
+    /**
+     * 根据用户名查询
+     */
+    Admin selectByUsername(String username);
 
     /**
      * 根据id查询
      */
-    User selectById(Integer id);
+    Admin selectById(Integer id);
 
     /**
      * 根据id删除
@@ -30,7 +31,7 @@ public interface UserMapper {
     /**
      * 批量查询
      */
-    List<User> selectBatch(List<Integer> ids);
+    List<Admin> selectBatch(List<Integer> ids);
 
     /**
      * 批量删除
@@ -40,10 +41,10 @@ public interface UserMapper {
     /**
      * 修改
      */
-    void update(User user);
+    void update(Admin admin);
 
     /**
      * 查询（条件查询）
      */
-    List<User> selectAll(User user);
+    List<Admin> selectAll(Admin admin);
 }

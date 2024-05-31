@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.account.mapper.UserMapper">
+<mapper namespace="com.account.mapper.AdminMapper">
     <!-- 添加 -->
     <insert id="insert">
-        insert into user
+        insert into admin
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">id,</if>
             <if test="username != null">username,</if>
@@ -13,8 +13,6 @@
             <if test="email != null">email,</if>
             <if test="avatar != null">avatar,</if>
             <if test="role != null">role,</if>
-            <if test="sex != null">sex,</if>
-            <if test="birthday != null">birthday,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateTime != null">update_time,</if>
         </trim>
@@ -27,8 +25,6 @@
             <if test="email != null">#{email},</if>
             <if test="avatar != null">#{avatar},</if>
             <if test="role != null">#{role},</if>
-            <if test="sex != null">#{sex},</if>
-            <if test="birthday != null">#{birthday},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateTime != null">#{updateTime},</if>
         </trim>
@@ -36,7 +32,7 @@
 
     <!-- 修改 -->
     <update id="update">
-        update user
+        update admin
         <set>
             <if test="username != null and username != ''">
                 username=#{username},
@@ -56,12 +52,6 @@
             <if test="email != null and email != '' ">
                 email=#{email},
             </if>
-            <if test="sex != null and sex != '' ">
-                sex=#{sex},
-            </if>
-            <if test="birthday != null and birthday != '' ">
-                birthday=#{birthday},
-            </if>
             <if test="updateTime != null ">
                 update_time=#{updateTime},
             </if>
@@ -75,38 +65,38 @@
 
     <!-- 根据id删除 -->
     <delete id="deleteById">
-        delete from user where id=#{id}
+        delete from admin where id=#{id}
     </delete>
 
     <!-- 批量删除 -->
     <delete id="deleteBatch">
-        delete from user where id in
+        delete from admin where id in
         <foreach collection="ids" item="id" open="(" separator="," close=")">
             #{id}
         </foreach>
     </delete>
 
     <!-- 根据用户名查询 -->
-    <select id="selectUserByUsername" resultType="com.account.pojo.User">
-        select * from user where username = #{username}
+    <select id="selectByUsername" resultType="com.account.pojo.Admin">
+        select * from admin where username = #{username}
     </select>
 
     <!-- 根据id查询 -->
-    <select id="selectById" resultType="com.account.pojo.User">
-        select * from user where id=#{id}
+    <select id="selectById" resultType="com.account.pojo.Admin">
+        select * from admin where id=#{id}
     </select>
 
     <!-- 批量查询 -->
-    <select id="selectBatch" resultType="com.account.pojo.User">
-        select * from user where id in
+    <select id="selectBatch" resultType="com.account.pojo.Admin">
+        select * from admin where id in
         <foreach collection="ids" item="id" open="(" close=")" separator="," >
             #{id}
         </foreach>
     </select>
 
     <!-- 查询（条件查询）-->
-    <select id="selectAll" resultType="com.account.pojo.User">
-        select * from user
+    <select id="selectAll" resultType="com.account.pojo.Admin">
+        select * from admin
         <where>
             <if test="username != null">
                 and username=#{username}

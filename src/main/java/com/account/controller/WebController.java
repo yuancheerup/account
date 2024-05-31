@@ -27,7 +27,7 @@ public class WebController {
 
         // 登录成功，生成JWT令牌，下发令牌
         if (loginUser != null) {
-            String data = loginUser.getId() + "-" + loginUser.getUsername();
+            String data = loginUser.getId() + "-" + loginUser.getRole() + "-" + loginUser.getUsername();
             String token = TokenUtils.createToken(data);
             log.info("登录成功：{}", loginUser.getUsername());
             return Result.success(token);
@@ -42,18 +42,13 @@ public class WebController {
     public Result register(@RequestBody User user) {
         user.setRole(userRole);
         log.info("注册用户：{}", user);
-
-        Boolean register = userService.register(user);
-        if (register) {
-            return Result.success();
+        // 查询用户是否存在
+        User userByUsername = userService.selectUserByUsername(user.getUsername());
+        if (userByUsername != null) {
+            return Result.error("用户名已经存在");
         }
 
-        return Result.error("用户名已经存在");
-    }
-
-    // 管理员登录
-    @PostMapping("/admin/login")
-    public Result adminLogin(String username, String password) {
+        userService.register(user);
         return Result.success();
     }
 

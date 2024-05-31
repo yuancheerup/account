@@ -103,5 +103,4 @@ public class NoticeServiceImpl implements NoticeService {
         return PageInfo.of(noticeList);
     }
 
-
 }
