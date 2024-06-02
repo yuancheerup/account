@@ -2,19 +2,24 @@ package com.account.controller;
 
 import com.account.pojo.Result;
 import com.account.pojo.User;
+import com.account.service.AdminService;
 import com.account.service.UserService;
 import com.account.utils.TokenUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @RestController
 public class WebController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AdminService adminService;
 
     private final String userRole = "USER";
 
@@ -30,7 +35,18 @@ public class WebController {
             String data = loginUser.getId() + "-" + loginUser.getRole() + "-" + loginUser.getUsername();
             String token = TokenUtils.createToken(data);
             log.info("登录成功：{}", loginUser.getUsername());
-            return Result.success(token);
+
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", loginUser.getId());
+            map.put("username", loginUser.getUsername());
+            map.put("name", loginUser.getName());
+            map.put("avatar", loginUser.getAvatar());
+            map.put("role", loginUser.getRole());
+            map.put("phone", loginUser.getPhone());
+            map.put("email", loginUser.getEmail());
+            map.put("token", token);
+
+            return Result.success(map);
         }
 
         log.info("登录失败");
@@ -52,4 +68,26 @@ public class WebController {
         return Result.success();
     }
 
+    // 修改密码
+    @PutMapping("/updatePassword")
+    public Result updatePassword(@RequestBody Map<String, Object> payload){
+        Integer id = (Integer) payload.get("id");
+        String password = (String) payload.get("password");
+        String newPassword = (String) payload.get("newPassword");
+        String role = (String) payload.get("role");
+
+        log.info("修改密码的信息为id：{}、password：{}、newPassword：{}、role：{}", id, password, newPassword, role);
+
+        Boolean bl;
+        if (role.equals("USER")) {
+            bl = userService.updatePassword(id, password, newPassword);
+        } else{
+            bl = adminService.updatePassword(id, password, newPassword);
+        }
+        if (bl) {
+            return Result.success();
+        }
+        return Result.error("原密码错误");
+
+    }
 }

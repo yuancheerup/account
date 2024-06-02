@@ -138,4 +138,20 @@ public class UserServiceImpl implements UserService {
         List<User> userList = userMapper.selectAll(user);
         return PageInfo.of(userList);
     }
+
+    /**
+     * 修改密码
+     */
+    @Override
+    public Boolean updatePassword(Integer id, String password, String newPassword) {
+        User userById = userMapper.selectById(id);
+        if (userById.getPassword().equals(password)) {
+            User user = new User();
+            user.setId(id);
+            user.setPassword(newPassword);
+            userMapper.update(user);
+            return true;
+        }
+        return false;
+    }
 }

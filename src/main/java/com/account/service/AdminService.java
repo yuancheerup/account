@@ -57,4 +57,9 @@ public interface AdminService {
      */
     PageInfo<Admin> selectPage(Admin admin, Integer pageNum, Integer pageSize);
 
+    /**
+     * 修改密码
+     */
+    Boolean updatePassword(Integer id, String password, String newPassword);
+
 }

@@ -61,5 +61,8 @@ public interface UserService {
      */
     PageInfo<User> selectPage(User user, Integer pageNum, Integer pageSize);
 
-
+    /**
+     * 修改密码
+     */
+    Boolean updatePassword(Integer id, String password, String newPassword);
 }

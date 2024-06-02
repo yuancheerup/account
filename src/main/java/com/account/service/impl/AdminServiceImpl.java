@@ -2,6 +2,7 @@ package com.account.service.impl;
 
 import com.account.mapper.AdminMapper;
 import com.account.pojo.Admin;
+import com.account.pojo.User;
 import com.account.service.AdminService;
 import com.account.utils.TokenUtils;
 import com.github.pagehelper.PageHelper;
@@ -129,5 +130,22 @@ public class AdminServiceImpl implements AdminService {
         PageHelper.startPage(pageNum, pageSize);
         List<Admin> userList = adminMapper.selectAll(admin);
         return PageInfo.of(userList);
+    }
+
+    /**
+     * 修改密码
+     */
+    @Override
+    public Boolean updatePassword(Integer id, String password, String newPassword) {
+        Admin adminById = adminMapper.selectById(id);
+        if (adminById.getPassword().equals(password)) {
+            Admin admin = new Admin();
+            admin.setId(id);
+            admin.setPassword(newPassword);
+            adminMapper.update(admin);
+            return true;
+        }
+        return false;
+
     }
 }

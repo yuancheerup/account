@@ -10,7 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -36,8 +38,19 @@ public class AdminController {
         if (loginAdmin != null) {
             String data = loginAdmin.getId() + "-" + loginAdmin.getRole() + "-" + loginAdmin.getUsername();
             String token = TokenUtils.createToken(data);
+
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", loginAdmin.getId());
+            map.put("username", loginAdmin.getUsername());
+            map.put("name", loginAdmin.getName());
+            map.put("avatar", loginAdmin.getAvatar());
+            map.put("role", loginAdmin.getRole());
+            map.put("phone", loginAdmin.getPhone());
+            map.put("email", loginAdmin.getEmail());
+            map.put("token", token);
+
             log.info("登录成功：{}", loginAdmin.getUsername());
-            return Result.success(token);
+            return Result.success(map);
         }
 
         log.info("登录失败");
@@ -110,9 +123,7 @@ public class AdminController {
         if (!adminService.selectById(admin.getId())) {
             return Result.error("需要修改的用户不存在");
         }
-        if (adminService.selectByUsername(admin.getUsername()) != null) {
-            return Result.error("用户名已经存在");
-        }
+
         adminService.update(admin);
         return Result.success();
     }
@@ -128,7 +139,6 @@ public class AdminController {
 
         PageInfo<Admin> page = adminService.selectPage(admin, pageNum, pageSize);
         log.info("分页查询结果：{}", page);
-        log.info("完毕！！！");
         return Result.success(page);
 
     }

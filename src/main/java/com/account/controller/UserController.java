@@ -124,9 +124,7 @@ public class UserController {
         if (!userService.selectById(user.getId())) {
             return Result.error("需要修改的用户不存在");
         }
-        if (userService.selectUserByUsername(user.getUsername()) != null) {
-            return Result.error("用户名已经存在");
-        }
+
         userService.update(user);
         return Result.success();
     }
