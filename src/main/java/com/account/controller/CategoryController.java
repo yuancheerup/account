@@ -1,8 +1,8 @@
 package com.account.controller;
 
-import com.account.pojo.Notice;
+import com.account.pojo.Category;
 import com.account.pojo.Result;
-import com.account.service.NoticeService;
+import com.account.service.CategoryService;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,32 +10,31 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @Slf4j
 @RestController
-@RequestMapping("/notice")
-public class NoticeController {
+@RequestMapping("/category")
+public class CategoryController {
 
     @Autowired
-    private NoticeService noticeService;
-
+    private CategoryService categoryService;
+    
     /**
      * 查询所有
      */
     @GetMapping("/selectAll")
-    public Result selectAll(Notice notice) {
-        log.info("查询所有的notices");
-       List<Notice> noticeList = noticeService.selectAll(notice);
-       return Result.success(noticeList);
+    public Result selectAll(Category category) {
+        log.info("查询所有的categorys");
+        List<Category> categoryList = categoryService.selectAll(category);
+        return Result.success(categoryList);
     }
 
     /**
      * 添加
      */
     @PostMapping("/add")
-    public Result insert(@RequestBody Notice notice) {
-        log.info("添加notice为：{}", notice.toString());
-        Boolean bl = noticeService.insert(notice);
+    public Result insert(@RequestBody Category category) {
+        log.info("添加category！");
+        Boolean bl = categoryService.insert(category);
         if (bl) {
             return Result.success();
         }
@@ -47,12 +46,11 @@ public class NoticeController {
      */
     @DeleteMapping("/delete/{id}")
     public Result deleteById(@PathVariable Integer id) {
-        log.info("删除的notice的id为{}", id);
         // 如果删除的数据不存在
-        if (!noticeService.selectById(id)) {
+        if (!categoryService.selectById(id)) {
             return Result.error("信息不存在，删除失败");
         }
-        noticeService.deleteById(id);
+        categoryService.deleteById(id);
         return Result.success();
     }
 
@@ -61,12 +59,11 @@ public class NoticeController {
      */
     @DeleteMapping("/delete/batch")
     public Result deleteBatch(@RequestBody List<Integer> ids) {
-        log.info("删除的notices的ids为{}", ids.toString());
-        List<Notice> noticeList = noticeService.selectBatch(ids);
-        if (noticeList.size() != ids.size()) {
+        List<Category> categoryList = categoryService.selectBatch(ids);
+        if (categoryList.size() != ids.size()) {
             return Result.error("需要删除的信息有误");
         }
-        noticeService.deleteBatch(ids);
+        categoryService.deleteBatch(ids);
         return Result.success();
     }
 
@@ -74,26 +71,24 @@ public class NoticeController {
      * 修改
      */
     @PutMapping("/update")
-    public Result updateById(@RequestBody Notice notice) {
-        log.info("修改的notice为{}", notice.toString());
-        if (!noticeService.selectById(notice.getId())) {
+    public Result updateById(@RequestBody Category category) {
+        if (!categoryService.selectById(category.getId())) {
             return Result.error("需要修改的公告不存在");
         }
-        noticeService.updateById(notice);
+        categoryService.updateById(category);
         return Result.success();
     }
 
     /**
      * 分页查询
-     * @param notice 实现查找功能，为null
+     * @param category 实现查找功能，为null
      */
     @GetMapping("/selectPage")
-    public Result selectPage(Notice notice,
+    public Result selectPage(Category category,
                              @RequestParam(defaultValue = "1") Integer pageNum,
                              @RequestParam(defaultValue = "10") Integer pageSize) {
 
-        PageInfo<Notice> page = noticeService.selectPage(notice, pageNum, pageSize);
+        PageInfo<Category> page = categoryService.selectPage(category, pageNum, pageSize);
         return Result.success(page);
     }
-
 }
