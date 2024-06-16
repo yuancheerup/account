@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.account.mapper.AccountMapper">
+    <!-- 添加 -->
+    <insert id="insert">
+        insert into accout
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username != null">username,</if>
+            <if test="balance != null">balance,</if>
+            <if test="income != null">income,</if>
+            <if test="pay != null">pay,</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username != null">#{username},</if>
+            <if test="balance != null">#{balance},</if>
+            <if test="income != null">#{income},</if>
+            <if test="pay != null">#{pay},</if>
+        </trim>
+    </insert>
+
+    <!-- 根据id删除 -->
+    <delete id="deleteById">
+        delete from account where id=#{id}
+    </delete>
+
+    <!-- 批量删除 -->
+    <delete id="deleteBatch">
+        delete from account where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.account.pojo.Account">
+        select id,username,balance,income,pay
+        from account
+        <where>
+            <if test="id != null and id != ''">
+                and id=#{id}
+            </if>
+            <if test="username != null and username != ''">
+                and username=#{username}
+            </if>
+            <if test="balance != null and balance != ''">
+                and balance=#{balance}
+            </if>
+            <if test="income != null and income != ''">
+                and income=#{income}
+            </if>
+            <if test="pay != null and pay != ''">
+                and pay=#{pay}
+            </if>
+        </where>
+    </select>
+
+    <!-- 根据id查询 -->
+    <select id="selectById" resultType="com.account.pojo.Account">
+        select id,username,balance,income,pay
+        from account
+        where
+            id=#{id}
+    </select>
+
+    <!-- 批量查询 -->
+    <select id="selectBatch" resultType="com.account.pojo.Account">
+        select id,username,balance,income,pay
+        from account
+        where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+</mapper>
