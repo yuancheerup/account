@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -36,14 +38,11 @@ public class BillServiceImpl implements BillService {
         if (bill != null) {
             // 获取token
             String[] strings = TokenUtils.decodeToken();
-
-            // token不为空，并且是管理员
-            if (strings != null && strings[1].equals("ADMIN")) {
-                log.info("bill insert service: {}", Arrays.toString(strings));
-                billMapper.insert(bill);
-                return true;
-            }
-            log.info(Arrays.toString(strings));
+            log.info("bill insert service: {}", Arrays.toString(strings));
+            // 设置创建时间
+            bill.setCreateTime(LocalDateTime.now());
+            billMapper.insert(bill);
+            return true;
         }
         return false;
     }

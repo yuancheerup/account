@@ -17,11 +17,14 @@
             <if test="wayType != null and wayType != ''">
                 way_type,
             </if>
-            <if test="createTime != null and createTime != ''">
+            <if test="createTime != null">
                 create_time,
             </if>
-            <if test="userId != null and userId != ''">
+            <if test="userId != null">
                 user_id,
+            </if>
+            <if test="remark != null and remark != ''">
+                remark,
             </if>
         </trim>
         values
@@ -38,11 +41,14 @@
             <if test="wayType != null and wayType != ''">
                 #{wayType},
             </if>
-            <if test="createTime != null and createTime != ''">
+            <if test="createTime != null">
                 #{createTime},
             </if>
-            <if test="userId != null and userId != ''">
+            <if test="userId != null">
                 #{userId},
+            </if>
+            <if test="remark != null and remark != ''">
+                #{remark},
             </if>
         </trim>
     </insert>
@@ -52,24 +58,29 @@
         update bill
         <set>
             <if test="category != null and category != ''">
-                category=#{category}
+                category=#{category},
             </if>
             <if test="type != null and type != ''">
-                type=#{type}
+                type=#{type},
             </if>
             <if test="money != null and money != ''">
-                money=#{money}
+                money=#{money},
             </if>
             <if test="wayType != null and wayType != ''">
-                way_type=#{wayType}
+                way_type=#{wayType},
             </if>
-            <if test="createTime != null and createTime != ''">
-                create_time=#{createTime}
+            <if test="createTime != null">
+                create_time=#{createTime},
             </if>
-            <if test="userId != null and userId != ''">
-                user_id=#{userId}
+            <if test="userId != null">
+                user_id=#{userId},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark=#{remark},
             </if>
         </set>
+        where
+            id=#{id}
     </update>
 
     <!-- 根据id删除 -->
@@ -88,12 +99,15 @@
 
     <!-- 选择所有 -->
     <select id="selectAll" resultType="com.account.pojo.Bill">
-        select * from bill
+        select bill.*, user.username as username
+        from bill
+        left join user
+            on bill.user_id = user.id
         <where>
-            <if test="category != null and category != ''">category=#{category}</if>
-            <if test="type != null and type != ''">type=#{type}</if>
-            <if test="wayType != null and wayType != ''">way_type=#{wayType}</if>
-            <if test="createTime != null and createTime != ''">create_time=#{createTime}</if>
+            <if test="category != null and category != ''"> and bill.category=#{category}</if>
+            <if test="type != null and type != ''"> and bill.type=#{type}</if>
+            <if test="wayType != null and wayType != ''"> and bill.way_type=#{wayType}</if>
+<!--            <if test="createTime != null"> and bill.create_time=#{createTime}</if>-->
         </where>
     </select>
 

@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,6 +15,9 @@ public class Bill {
     private String type;
     private Double money;
     private String wayType;
-    private String createTime;
+    private LocalDateTime createTime;
     private Integer userId;
+    private String remark;
+
+    private String username;
 }
