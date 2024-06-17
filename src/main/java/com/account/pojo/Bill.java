@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -20,4 +21,6 @@ public class Bill {
     private String remark;
 
     private String username;
+    private LocalDate start;
+    private LocalDate end;
 }
