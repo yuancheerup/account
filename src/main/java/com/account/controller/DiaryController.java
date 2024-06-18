@@ -12,6 +12,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@RequestMapping("/diary")
 public class DiaryController {
     
     @Autowired
@@ -71,6 +72,7 @@ public class DiaryController {
      */
     @PutMapping("/update")
     public Result updateById(@RequestBody Diary diary) {
+        log.info("修改的公告为{}", diary);
         if (!diaryService.selectById(diary.getId())) {
             return Result.error("需要修改的公告不存在");
         }

@@ -106,6 +106,7 @@
         <where>
             <if test="category != null and category != ''"> and bill.category=#{category}</if>
             <if test="type != null and type != ''"> and bill.type=#{type}</if>
+            <if test="userId != null"> and bill.user_id=#{userId}</if>
             <if test="wayType != null and wayType != ''"> and bill.way_type=#{wayType}</if>
             <if test="start != null"> and bill.create_time >= #{start}</if>
             <if test="end != null"> and bill.create_time &lt;= #{end}</if>
