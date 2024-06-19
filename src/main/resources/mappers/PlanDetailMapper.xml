@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.account.mapper.PlanDetailMapper">
+
+    <!-- 添加 -->
+    <insert id="insert">
+        insert into plan_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="planId != null">
+                plan_id,
+            </if>
+            <if test="date != null">
+                date,
+            </if>
+            <if test="money != null">
+                money,
+            </if>
+            <if test="total != null">
+                total,
+            </if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="planId != null">
+                #{planId},
+            </if>
+            <if test="date != null">
+                #{date},
+            </if>
+            <if test="money != null">
+                #{money},
+            </if>
+            <if test="total != null">
+                #{total},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 根据id修改 -->
+    <update id="updateById">
+        update plan_detail
+        <set>
+            <if test="planId != null">
+                plan_id=#{planId},
+            </if>
+            <if test="date != null">
+                date=#{date},
+            </if>
+            <if test="money != null">
+                money=#{money},
+            </if>
+            <if test="total != null">
+                total=#{total},
+            </if>
+        </set>
+        where
+        id=#{id}
+    </update>
+
+    <!-- 根据id删除 -->
+    <delete id="deleteById">
+        delete from plan_detail where id=#{id}
+    </delete>
+
+    <!-- 批量删除 -->
+    <delete id="deleteBatch">
+        delete from plan_detail
+        where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- 选择所有 -->
+    <select id="selectAll" resultType="com.account.pojo.PlanDetail">
+        select *
+        from plan_detail
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="money != null">
+                and money = #{money}
+            </if>
+            <if test="date != null">
+                and date like concat('%', #{date}, '%')
+            </if>
+            <if test="planId != null">
+                and plan_id=#{planId}
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <!-- 根据id查询 -->
+    <select id="selectById" resultType="com.account.pojo.PlanDetail">
+        select * from plan_detail where id=#{id}
+    </select>
+
+    <!-- 批量查询 -->
+    <select id="selectBatch" resultType="com.account.pojo.PlanDetail">
+        select * from plan_detail
+        where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+</mapper>
