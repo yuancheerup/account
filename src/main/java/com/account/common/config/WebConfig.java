@@ -1,4 +1,4 @@
-package com.account.config;
+package com.account.common.config;
 
 import com.account.interceptor.LoginInterceptor;
 import jakarta.annotation.Resource;

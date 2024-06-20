@@ -14,7 +14,7 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-public class WebController {
+public class LoginController {
     @Autowired
     private UserService userService;
 
@@ -44,6 +44,8 @@ public class WebController {
             map.put("role", loginUser.getRole());
             map.put("phone", loginUser.getPhone());
             map.put("email", loginUser.getEmail());
+            map.put("sex", loginUser.getSex());
+            map.put("birthday", loginUser.getBirthday());
             map.put("token", token);
 
             return Result.success(map);
