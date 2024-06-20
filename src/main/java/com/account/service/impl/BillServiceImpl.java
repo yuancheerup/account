@@ -10,8 +10,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -97,5 +100,48 @@ public class BillServiceImpl implements BillService {
         List<Bill> billList = billMapper.selectAll(bill);
         log.info("分页查询结果：{}", PageInfo.of(billList));
         return PageInfo.of(billList);
+    }
+
+    /**
+     * 计算好各账单类型的占比和金额
+     */
+    public List<Bill> count(String type) {
+        // 获取当前用户信息
+        String[] currentUserData = TokenUtils.decodeToken();
+        int userId = Integer.parseInt(currentUserData[0]);
+
+        // 获取用户指定类型（支出或收入）的所有账单
+        Bill bill = new Bill();
+        bill.setUserId(userId);
+        bill.setType(type);
+        List<Bill> billList = billMapper.selectAll(bill);
+        log.info("billList::::::{}", billList);
+        // 计算总金额
+        BigDecimal totalAmount = billList.stream()
+                .map(Bill::getMoney)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        log.info("totalAmount::::::{}", totalAmount);
+        // 获取所有分类
+        List<String> categoryList = billMapper.selectCategoryByType(type);
+        log.info("categoryList::::::{}", categoryList);
+        // 计算每个分类的金额和百分比
+        List<Bill> list = new ArrayList<>();
+        for (String category : categoryList) {
+            Bill b = new Bill();
+            b.setCategory(category);
+            // 统计出当前这个分类的所有的金额汇总
+            BigDecimal categorySum = billList.stream()
+                    .filter(bi -> bi.getCategory().equals(category))
+                    .map(Bill::getMoney).reduce(BigDecimal::add)
+                    .orElse(BigDecimal.ZERO);
+            // 返回当前分类的总金额
+            b.setMoney(categorySum);
+            // 得到账单的百分比
+            b.setPercent(categorySum.divide(totalAmount, 2, RoundingMode.HALF_UP)
+                    .multiply(BigDecimal.valueOf(100))
+                    .intValue());
+            list.add(b);
+        }
+        return list;
     }
 }

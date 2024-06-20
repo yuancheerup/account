@@ -41,4 +41,9 @@ public interface BillMapper {
      * 修改
      */
     void updateById(Bill bill);
+
+    /**
+     * 查询所有分类
+     */
+    List<String> selectCategoryByType(String type);
 }

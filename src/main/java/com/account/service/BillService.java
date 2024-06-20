@@ -45,4 +45,9 @@ public interface BillService {
      * 分页查询
      */
     PageInfo<Bill> selectPage(Bill bill, Integer pageNum, Integer pageSize);
+
+    /**
+     * 计算好各账单类型的占比和金额
+     */
+    List<Bill> count(String type);
 }

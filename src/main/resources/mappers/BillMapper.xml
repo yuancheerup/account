@@ -126,4 +126,11 @@
             #{id}
         </foreach>
     </select>
+
+    <!-- 查询所有分类 -->
+    <select id="selectCategoryByType" resultType="java.lang.String">
+        select distinct category
+        from bill
+        where type=#{type}
+    </select>
 </mapper>

@@ -91,4 +91,15 @@ public class BillController {
         PageInfo<Bill> page = billService.selectPage(bill, pageNum, pageSize);
         return Result.success(page);
     }
+
+    /**
+     * 计算好各账单类型的占比和金额
+     */
+    @GetMapping("/count")
+    public Result getListCount(@RequestParam String type) {
+        log.info("计算的类型为{}", type);
+        List<Bill> listCount = billService.count(type);
+        log.info("计算得到的数据为{}", listCount);
+        return Result.success(listCount);
+    }
 }

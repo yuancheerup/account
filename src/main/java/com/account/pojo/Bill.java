@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -14,7 +15,7 @@ public class Bill {
     private Integer id;
     private String category;
     private String type;
-    private Double money;
+    private BigDecimal money;
     private String wayType;
     private LocalDateTime createTime;
     private Integer userId;
@@ -23,4 +24,5 @@ public class Bill {
     private String username;
     private LocalDate start;
     private LocalDate end;
+    private Integer percent;
 }

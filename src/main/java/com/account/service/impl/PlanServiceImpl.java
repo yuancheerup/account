@@ -114,6 +114,10 @@ public class PlanServiceImpl implements PlanService {
         return pageInfo;
     }
 
+    /**
+     * 获取已经存的钱的数量，并判断plan的状态
+     * @param plan
+     */
     public void setPlan(Plan plan) {
         BigDecimal sum = planDetailService.getPlanDetailTotal(plan.getId());
 
