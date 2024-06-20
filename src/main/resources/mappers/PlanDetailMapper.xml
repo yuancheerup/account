@@ -57,9 +57,9 @@
         id=#{id}
     </update>
 
-    <!-- 根据id删除 -->
+    <!-- 根据id, planId删除、修改 -->
     <delete id="deleteById">
-        delete from plan_detail where id=#{id}
+        call after_delete_plan_detail(#{id}, #{planId})
     </delete>
 
     <!-- 批量删除 -->

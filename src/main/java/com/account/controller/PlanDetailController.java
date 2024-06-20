@@ -4,6 +4,7 @@ import com.account.pojo.PlanDetail;
 import com.account.pojo.Result;
 import com.account.service.PlanDetailService;
 import com.github.pagehelper.PageInfo;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -60,15 +61,15 @@ public class PlanDetailController {
     }
 
     /**
-     * 根据id删除
+     * 根据id, planId删除、修改
      */
-    @DeleteMapping("/delete/{id}")
-    public Result deleteById(@PathVariable Integer id) {
+    @DeleteMapping("/delete/{id}/{planId}")
+    public Result deleteById(@PathVariable Integer id, @PathVariable Integer planId) {
         // 如果删除的数据不存在
         if (planDetailService.selectById(id) == null) {
             return Result.error("信息不存在，删除失败");
         }
-        planDetailService.deleteById(id);
+        planDetailService.deleteById(id, planId);
         return Result.success();
     }
 

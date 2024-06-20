@@ -3,17 +3,13 @@ package com.account.service.impl;
 import com.account.mapper.PlanDetailMapper;
 import com.account.pojo.PlanDetail;
 import com.account.service.PlanDetailService;
-import com.account.utils.TokenUtils;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -56,11 +52,12 @@ public class PlanDetailServiceImpl implements PlanDetailService {
     }
 
     /**
-     * 根据id删除
+     * 根据id, planId删除、修改
      */
     @Override
-    public void deleteById(Integer id) {
-        planDetailMapper.deleteById(id);
+    public void deleteById(Integer id, Integer planId) {
+        // 删除planId的计划的详情时，需要更新这个表
+        planDetailMapper.deleteById(id, planId);
     }
 
     /**

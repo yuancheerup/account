@@ -23,9 +23,9 @@ public interface PlanDetailMapper {
     PlanDetail selectById(Integer id);
 
     /**
-     * 根据id删除
+     * 根据id, planId删除、修改
      */
-    void deleteById(Integer id);
+    void deleteById(Integer id, Integer planId);
 
     /**
      * 批量查询
@@ -41,4 +41,5 @@ public interface PlanDetailMapper {
      * 修改
      */
     void updateById(PlanDetail planDetail);
+
 }

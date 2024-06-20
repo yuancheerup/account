@@ -1,7 +1,6 @@
 package com.account.service;
 
 import com.account.pojo.PlanDetail;
-import com.github.pagehelper.PageInfo;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -25,7 +24,7 @@ public interface PlanDetailService {
     /**
      * 根据id删除
      */
-    void deleteById(Integer id);
+    void deleteById(Integer id, Integer planId);
 
     /**
      * 批量查询
