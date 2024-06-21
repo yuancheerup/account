@@ -111,6 +111,7 @@
             <if test="start != null"> and bill.create_time >= #{start}</if>
             <if test="end != null"> and bill.create_time &lt;= #{end}</if>
         </where>
+        order by id desc
     </select>
 
     <!-- 根据id查询 -->
