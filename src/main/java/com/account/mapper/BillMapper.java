@@ -46,4 +46,9 @@ public interface BillMapper {
      * 查询所有分类
      */
     List<String> selectCategoryByType(String type);
+
+    /**
+     * 根据账本id查询
+     */
+    List<Bill> selectByBookId(Integer bookId);
 }

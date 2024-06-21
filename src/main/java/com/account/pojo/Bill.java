@@ -20,6 +20,7 @@ public class Bill {
     private LocalDateTime createTime;
     private Integer userId;
     private String remark;
+    private Integer bookId;
 
     private String username;
     private LocalDate start;

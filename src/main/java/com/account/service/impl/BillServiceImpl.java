@@ -144,4 +144,9 @@ public class BillServiceImpl implements BillService {
         }
         return list;
     }
+
+    @Override
+    public List<Bill> selectByBookId(Integer bookId) {
+        return billMapper.selectByBookId(bookId);
+    }
 }

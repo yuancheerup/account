@@ -50,4 +50,9 @@ public interface BillService {
      * 计算好各账单类型的占比和金额
      */
     List<Bill> count(String type);
+
+    /**
+     * 根据账本id查询
+     */
+    List<Bill> selectByBookId(Integer bookId);
 }

@@ -4,6 +4,7 @@ import com.account.pojo.Bill;
 import com.account.pojo.Result;
 import com.account.service.BillService;
 import com.github.pagehelper.PageInfo;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -101,5 +102,18 @@ public class BillController {
         List<Bill> listCount = billService.count(type);
         log.info("计算得到的数据为{}", listCount);
         return Result.success(listCount);
+    }
+
+    /**
+     * 根据账本id查询
+     */
+    @GetMapping("/billByBookId")
+    public Result selectByBookId(@RequestParam Integer bookId) {
+        log.info("查询的账本账单的id为{}", bookId);
+        if (bookId == null) {
+            return Result.error("查询失败");
+        }
+        List<Bill> billList = billService.selectByBookId(bookId);
+        return Result.success(billList);
     }
 }

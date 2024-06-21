@@ -134,4 +134,10 @@
         from bill
         where type=#{type}
     </select>
+
+
+    <!-- 根据账本id查询 -->
+    <select id="selectByBookId" resultType="com.account.pojo.Bill">
+        select * from bill where book_id=#{bookId}
+    </select>
 </mapper>
