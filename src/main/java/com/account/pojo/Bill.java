@@ -26,4 +26,5 @@ public class Bill {
     private LocalDate start;
     private LocalDate end;
     private Integer percent;
+    private String name;
 }

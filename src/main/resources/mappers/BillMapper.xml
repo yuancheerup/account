@@ -26,6 +26,9 @@
             <if test="remark != null and remark != ''">
                 remark,
             </if>
+            <if test="bookId != null">
+                book_id,
+            </if>
         </trim>
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -49,6 +52,9 @@
             </if>
             <if test="remark != null and remark != ''">
                 #{remark},
+            </if>
+            <if test="bookId != null">
+                #{bookId},
             </if>
         </trim>
     </insert>
@@ -78,6 +84,9 @@
             <if test="remark != null and remark != ''">
                 remark=#{remark},
             </if>
+            <if test="bookId != null">
+                book_id=#{bookId},
+            </if>
         </set>
         where
             id=#{id}
@@ -99,10 +108,14 @@
 
     <!-- 选择所有 -->
     <select id="selectAll" resultType="com.account.pojo.Bill">
-        select bill.*, user.username as username
+        select bill.*,
+               user.username as username,
+               account_book.name as name
         from bill
         left join user
             on bill.user_id = user.id
+        left join account_book
+            on bill.book_id=account_book.id
         <where>
             <if test="category != null and category != ''"> and bill.category=#{category}</if>
             <if test="type != null and type != ''"> and bill.type=#{type}</if>
@@ -110,6 +123,7 @@
             <if test="wayType != null and wayType != ''"> and bill.way_type=#{wayType}</if>
             <if test="start != null"> and bill.create_time >= #{start}</if>
             <if test="end != null"> and bill.create_time &lt;= #{end}</if>
+            <if test="name != null and name != ''"> and account_book.name=#{name}</if>
         </where>
         order by id desc
     </select>

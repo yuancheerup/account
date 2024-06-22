@@ -16,4 +16,6 @@ public class AccountBook {
     private Integer userId;
     private String remark;
     private LocalDateTime createTime;
+
+    private String username;
 }
