@@ -41,7 +41,7 @@
                 and id=#{id}
             </if>
             <if test="username != null and username != ''">
-                and username=#{username}
+                and username like concat('%', #{username}, '%')
             </if>
             <if test="balance != null and balance != ''">
                 and balance=#{balance}

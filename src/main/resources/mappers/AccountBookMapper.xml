@@ -84,13 +84,13 @@
 
     <!-- 选择所有 -->
     <select id="selectAll" resultType="com.account.pojo.AccountBook">
-        select account_book.*, user.username as username
-        from account_book
+        select ab.*, user.username as username
+        from account_book as ab
         left join user
-        on account_book.user_id = user.id
+        on ab.user_id = user.id
         <where>
-            <if test="name != null and name != ''">and name=#{name}</if>
-            <if test="createTime != null">and create_time=#{createTime}</if>
+            <if test="name != null and name != ''">and ab.name=#{name}</if>
+            <if test="createTime != null">and ab.create_time=#{createTime}</if>
         </where>
     </select>
 

@@ -2,6 +2,7 @@ package com.account.service.impl;
 
 import com.account.mapper.AccountBookMapper;
 import com.account.pojo.AccountBook;
+import com.account.pojo.Plan;
 import com.account.service.AccountBookService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -33,6 +34,14 @@ public class AccountBookServiceImpl implements AccountBookService {
     public Boolean insert(AccountBook accountBook) {
         // 判断accountBook是否为null
         if (accountBook != null) {
+            // 若添加的账本名已经存在
+            List<AccountBook> accountBooks = accountBookMapper.selectAll(null);
+            for (AccountBook ab : accountBooks) {
+                if (ab.getName().equals(accountBook.getName())) {
+                    return false;
+                }
+            }
+
             // 设置创建时间
             accountBook.setCreateTime(LocalDateTime.now());
             accountBookMapper.insert(accountBook);

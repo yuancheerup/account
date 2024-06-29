@@ -24,4 +24,5 @@ public class Plan {
     private Integer percent;
     private String status;
     private String username;
+    private Double totalPlanDetailMoney;
 }

@@ -1,4 +1,4 @@
-package com.account.common.enums;
+package com.account.enums;
 
 public enum PlanStatusEnum {
     NO_START("未开始"),

@@ -106,7 +106,7 @@
         on plan.user_id = user.id
         <where>
             <if test="name != null and name != ''">
-                and name=#{name}
+                and plan.name=#{name}
             </if>
             <if test="cover != null and cover != ''">
                 and cover=#{cover}
@@ -124,7 +124,7 @@
                 and user_id=#{userId}
             </if>
             <if test="createTime != null">
-                and create_time=#{createTime}
+                and plan.create_time=#{createTime}
             </if>
         </where>
     </select>

@@ -1,6 +1,6 @@
 package com.account.service.impl;
 
-import com.account.common.enums.PlanStatusEnum;
+import com.account.enums.PlanStatusEnum;
 import com.account.mapper.PlanMapper;
 import com.account.pojo.Plan;
 import com.account.service.PlanDetailService;
@@ -15,8 +15,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -47,6 +45,13 @@ public class PlanServiceImpl implements PlanService {
     public Boolean insert(Plan plan) {
         // 判断plan是否为null
         if (plan != null) {
+            // 若添加的计划名已经存在
+            List<Plan> plans = planMapper.selectAll(null);
+            for (Plan p : plans) {
+                if (p.getName().equals(plan.getName())) {
+                    return false;
+                }
+            }
             // 设置创建时间
             plan.setCreateTime(LocalDateTime.now());
             planMapper.insert(plan);
@@ -119,6 +124,7 @@ public class PlanServiceImpl implements PlanService {
      */
     public void setPlan(Plan plan) {
         BigDecimal sum = planDetailService.getPlanDetailTotal(plan.getId());
+        plan.setTotalPlanDetailMoney(sum.doubleValue());
 
         // 存储的总额超过了计划金额
         if (sum.compareTo(plan.getMoney()) >= 0) {
