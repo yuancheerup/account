@@ -95,9 +95,10 @@
     <select id="selectAll" resultType="com.account.pojo.Diary">
         select * from diary
         <where>
-            <if test="title != null and title != ''">and title=#{title}</if>
-            <if test="username != null and username != ''">and username=#{username}</if>
+            <if test="title != null and title != ''">and title like concat('%', #{title}, '%')</if>
+            <if test="username != null and username != ''">and username like concat('%', #{username}, '%')</if>
             <if test="createTime != null">and create_time=#{createTime}</if>
+            <if test="userId != null">and user_id=#{userId}</if>
         </where>
     </select>
 

@@ -37,19 +37,22 @@
         select id,username,balance,income,pay
         from account
         <where>
-            <if test="id != null and id != ''">
+            <if test="id != null">
                 and id=#{id}
             </if>
             <if test="username != null and username != ''">
                 and username like concat('%', #{username}, '%')
             </if>
-            <if test="balance != null and balance != ''">
+            <if test="userId != null">
+                and user_id=#{userId}
+            </if>
+            <if test="balance != null">
                 and balance=#{balance}
             </if>
-            <if test="income != null and income != ''">
+            <if test="income != null">
                 and income=#{income}
             </if>
-            <if test="pay != null and pay != ''">
+            <if test="pay != null">
                 and pay=#{pay}
             </if>
         </where>

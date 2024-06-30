@@ -106,7 +106,7 @@
         on plan.user_id = user.id
         <where>
             <if test="name != null and name != ''">
-                and plan.name=#{name}
+                and plan.name like concat('%', #{name}, '%')
             </if>
             <if test="cover != null and cover != ''">
                 and cover=#{cover}

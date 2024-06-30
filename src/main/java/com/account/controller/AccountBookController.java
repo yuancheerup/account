@@ -87,7 +87,7 @@ public class AccountBookController {
     public Result selectPage(AccountBook accountBook,
                              @RequestParam(defaultValue = "1") Integer pageNum,
                              @RequestParam(defaultValue = "10") Integer pageSize) {
-
+        log.info("分页查询accountBook为：{}", accountBook.toString());
         PageInfo<AccountBook> page = accountBookService.selectPage(accountBook, pageNum, pageSize);
         return Result.success(page);
     }

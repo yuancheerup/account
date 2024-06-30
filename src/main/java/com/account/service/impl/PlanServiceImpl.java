@@ -66,6 +66,9 @@ public class PlanServiceImpl implements PlanService {
     @Override
     public Plan selectById(Integer id) {
         Plan plan = planMapper.selectById(id);
+        if (plan == null) {
+            return null;
+        }
         this.setPlan(plan);
         return plan;
     }

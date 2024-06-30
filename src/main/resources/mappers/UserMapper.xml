@@ -109,7 +109,7 @@
         select * from user
         <where>
             <if test="username != null">
-                and username=#{username}
+                and username like concat('%', #{username}, '%')
             </if>
             <if test="name != null">
                 and name=#{name}

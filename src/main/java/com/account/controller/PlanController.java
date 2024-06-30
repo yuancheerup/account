@@ -88,8 +88,9 @@ public class PlanController {
      */
     @PutMapping("/update")
     public Result updateById(@RequestBody Plan plan) {
+        log.info("修改的plan为{}", plan.toString());
         if (planService.selectById(plan.getId()) == null) {
-            return Result.error("需要修改的公告不存在");
+            return Result.error("需要修改的计划不存在");
         }
         planService.updateById(plan);
         return Result.success();

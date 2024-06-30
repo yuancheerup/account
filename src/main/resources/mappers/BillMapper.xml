@@ -117,13 +117,13 @@
         left join account_book
             on bill.book_id=account_book.id
         <where>
-            <if test="category != null and category != ''"> and bill.category=#{category}</if>
-            <if test="type != null and type != ''"> and bill.type=#{type}</if>
+            <if test="category != null and category != ''"> and bill.category like concat('%', #{category}, '%')</if>
+            <if test="type != null and type != ''"> and bill.type like concat('%', #{type}, '%')</if>
             <if test="userId != null"> and bill.user_id=#{userId}</if>
-            <if test="wayType != null and wayType != ''"> and bill.way_type=#{wayType}</if>
+            <if test="wayType != null and wayType != ''"> and bill.way_type like concat('%', #{wayType}, '%')</if>
             <if test="start != null"> and bill.create_time >= #{start}</if>
             <if test="end != null"> and bill.create_time &lt;= #{end}</if>
-            <if test="name != null and name != ''"> and account_book.name=#{name}</if>
+            <if test="name != null and name != ''"> and account_book.name like concat('%', #{name}, '%')</if>
         </where>
         order by id desc
     </select>

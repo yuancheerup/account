@@ -18,7 +18,7 @@ import java.util.List;
 @Component
 public class TokenUtils {
     private static final String SIGN_KEY = "jxufe";
-    private static final Long EXPIRE = 7200000L;
+    private static final Long EXPIRE = 24*60*60*1000L;
 
     // 生成Jwt令牌
     public static String createToken(String data) {
@@ -31,17 +31,15 @@ public class TokenUtils {
     // 解析Jwt令牌
     public static String[] decodeToken() {
         try {
-            ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+            ServletRequestAttributes attributes =
+                    (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
             if (attributes != null) {
                 HttpServletRequest request = attributes.getRequest();
                 String token = request.getHeader("Authorization");
 
-                // 打印接收到的Token
-                log.info("接收到的Token: {}", token);
-
                 if (token == null || token.isEmpty()) {
                     // 如果令牌为空，抛出异常
-                    throw new RuntimeException("Token is missing");
+                    throw new RuntimeException("Token无效");
                 }
 
                 // 创建用于验证令牌的算法对象
@@ -54,13 +52,12 @@ public class TokenUtils {
                 // 获取令牌中的受众信息并返回
                 String[] data = decodedJWT.getAudience().get(0).split("-");
                 return data;
-
             }
-            throw new RuntimeException("Token is missing");
+            throw new RuntimeException("Token无效");
 
         } catch (JWTDecodeException exception) {
-            // Invalid token
-            throw new RuntimeException("Invalid token", exception);
+
+            throw new RuntimeException("Token无效", exception);
         }
     }
 }

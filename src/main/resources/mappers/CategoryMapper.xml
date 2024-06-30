@@ -48,8 +48,8 @@
         from category
         <where>
             <if test="id != null">and id=#{id}</if>
-            <if test="type != null">and type=#{type}</if>
-            <if test="name != null">and name=#{name}</if>
+            <if test="type != null">and type like concat('%', #{type}, '%')</if>
+            <if test="name != null">and name like concat('%', #{name}, '%')</if>
         </where>
     </select>
 

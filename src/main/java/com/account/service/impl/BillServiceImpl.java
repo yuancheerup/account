@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -115,15 +116,19 @@ public class BillServiceImpl implements BillService {
         bill.setUserId(userId);
         bill.setType(type);
         List<Bill> billList = billMapper.selectAll(bill);
-        log.info("billList::::::{}", billList);
+
         // 计算总金额
         BigDecimal totalAmount = billList.stream()
                 .map(Bill::getMoney)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-        log.info("totalAmount::::::{}", totalAmount);
+
+        // 总金额为0则返回一个空列表
+        if (totalAmount.equals(BigDecimal.ZERO)) {
+            return Collections.emptyList();
+        }
+
         // 获取所有分类
         List<String> categoryList = billMapper.selectCategoryByType(type);
-        log.info("categoryList::::::{}", categoryList);
         // 计算每个分类的金额和百分比
         List<Bill> list = new ArrayList<>();
         for (String category : categoryList) {
@@ -134,6 +139,10 @@ public class BillServiceImpl implements BillService {
                     .filter(bi -> bi.getCategory().equals(category))
                     .map(Bill::getMoney).reduce(BigDecimal::add)
                     .orElse(BigDecimal.ZERO);
+            // 判断当前分类的金额是否为0
+            if (categorySum.equals(BigDecimal.ZERO)) {
+                continue;
+            }
             // 返回当前分类的总金额
             b.setMoney(categorySum);
             // 得到账单的百分比

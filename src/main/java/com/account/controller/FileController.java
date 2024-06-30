@@ -40,30 +40,29 @@ public class FileController {
             if (!FileUtil.isDirectory(filePath)) {
                 FileUtil.mkdir(filePath);
             }
-            // 文件存储形式：时间戳-文件名
-            FileUtil.writeBytes(file.getBytes(), filePath + flag + "-" + fileName);  // ***/manager/files/1697438073596-avatar.png
+            // 文件存储形式：时间戳-文件名 ***/account/files/1697438073596-avatar.png
+            FileUtil.writeBytes(file.getBytes(), filePath + flag + "-" + fileName);
             System.out.println(fileName + "--上传成功");
 
         } catch (Exception e) {
             System.err.println(fileName + "--文件上传失败");
         }
         String http = "http://" + ip + ":" + port + "/files/";
-        return Result.success(http + flag + "-" + fileName);  //  http://localhost:8080/files/1697438073596-avatar.png
+        //  http://localhost:8080/files/1697438073596-avatar.png
+        return Result.success(http + flag + "-" + fileName);
     }
 
 
     /**
      * 获取文件
-     *
-     * @param flag
-     * @param response
      */
     @GetMapping("/{flag}")   //  1697438073596-avatar.png
     public void avatarPath(@PathVariable String flag, HttpServletResponse response) {
         OutputStream os;
         try {
             if (StrUtil.isNotEmpty(flag)) {
-                response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(flag, "UTF-8"));
+                response.addHeader("Content-Disposition", "attachment;filename="
+                        + URLEncoder.encode(flag, "UTF-8"));
                 response.setContentType("application/octet-stream");
                 byte[] bytes = FileUtil.readBytes(filePath + flag);
                 os = response.getOutputStream();
@@ -78,8 +77,6 @@ public class FileController {
 
     /**
      * 删除文件
-     *
-     * @param flag
      */
     @DeleteMapping("/{flag}")
     public void delFile(@PathVariable String flag) {

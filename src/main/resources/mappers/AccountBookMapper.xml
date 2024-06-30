@@ -89,8 +89,9 @@
         left join user
         on ab.user_id = user.id
         <where>
-            <if test="name != null and name != ''">and ab.name=#{name}</if>
+            <if test="name != null and name != ''">and ab.name like concat('%', #{name}, '%')</if>
             <if test="createTime != null">and ab.create_time=#{createTime}</if>
+            <if test="userId != null">and ab.user_id=#{userId}</if>
         </where>
     </select>
 

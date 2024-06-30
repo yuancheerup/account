@@ -65,8 +65,8 @@ public class UserServiceImpl implements UserService {
             // 获取token
             String[] strings = TokenUtils.decodeToken();
             log.info("strings: {}", Arrays.toString(strings));
-            // token不为空，并且是管理员
-            if (strings != null && strings[1].equals("USER")) {
+            // 管理员才能操作
+            if (strings[1].equals("ADMIN")) {
                 user.setCreateTime(LocalDateTime.now());
                 user.setUpdateTime(LocalDateTime.now());
                 userMapper.insert(user);

@@ -4,6 +4,7 @@ import com.account.mapper.AccountBookMapper;
 import com.account.pojo.AccountBook;
 import com.account.pojo.Plan;
 import com.account.service.AccountBookService;
+import com.account.utils.TokenUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -32,12 +33,15 @@ public class AccountBookServiceImpl implements AccountBookService {
      */
     @Override
     public Boolean insert(AccountBook accountBook) {
+        String[] data = TokenUtils.decodeToken();
+
         // 判断accountBook是否为null
         if (accountBook != null) {
-            // 若添加的账本名已经存在
+            // 同一个用户添加的账本名不能相同
             List<AccountBook> accountBooks = accountBookMapper.selectAll(null);
             for (AccountBook ab : accountBooks) {
-                if (ab.getName().equals(accountBook.getName())) {
+                if (ab.getName().equals(accountBook.getName()) &&
+                        ab.getUserId() == Integer.parseInt(data[0])) {
                     return false;
                 }
             }
